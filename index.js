@@ -7,7 +7,6 @@ path = 'default' in path ? path['default'] : path;
 var cheerio = require('cheerio');
 cheerio = 'default' in cheerio ? cheerio['default'] : cheerio;
 var objectAssign = require('object-assign');
-objectAssign = 'default' in objectAssign ? objectAssign['default'] : objectAssign;
 var pathExists = require('path-exists');
 pathExists = 'default' in pathExists ? pathExists['default'] : pathExists;
 var babel = require('babel-core');
@@ -153,49 +152,44 @@ function scriptLoader$1(el) {
 }
 
 function htmlpack() {
-  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-  var _ref$entry = _ref.entry;
-  var entry = _ref$entry === undefined ? 'entry.html' : _ref$entry;
-  var _ref$dest = _ref.dest;
-  var dest = _ref$dest === undefined ? 'index.html' : _ref$dest;
-  var _ref$babel = _ref.babel;
-  var babel = _ref$babel === undefined ? true : _ref$babel;
+  var args = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
   var config = loadConfig();
-  var opts = objectAssign({}, config, {
-    entry: entry,
-    dest: dest
-  });
-  if (opts.babel !== undefined) {
-    babel = opts.babel;
+  for (var arg in args) {
+    config[arg] = args[arg];
   }
-  opts.plugins = opts.plugins || {};
-  var entryLocation = path.resolve(process.cwd(), opts.entry);
+  console.log(config);
+  if (config.babel === undefined) {
+    config.babel = true;
+  }
+  config.entry = config.entry || 'entry.html';
+  config.dest = config.dest || 'index.html';
+  config.plugins = config.plugins || {};
+  var entryLocation = path.resolve(process.cwd(), config.entry);
   var self = {
     baseDir: path.dirname(entryLocation),
-    babel: babel
+    babel: config.babel
   };
   var $input = cheerio.load(fs.readFileSync(entryLocation, 'utf8'));
   var $output = fs.readFileSync('./lib/output.html', 'utf8');
   $output = cheerio.load($output);
   // process style
   $input('style').each(function (i, el) {
-    $output('head').append(styleLoader.call(self, $input(el), opts.plugins.head));
+    $output('head').append(styleLoader.call(self, $input(el), config.plugins.head));
   });
   // process script
   $input('script').each(function (i, el) {
-    $output('body').append(scriptLoader.call(self, $input(el), opts.plugins.script));
+    $output('body').append(scriptLoader.call(self, $input(el), config.plugins.script));
   });
   // process template
   $input('template').each(function (i, el) {
-    $output('body').prepend(scriptLoader$1.call(self, $input(el), opts.plugins.template));
+    $output('body').prepend(scriptLoader$1.call(self, $input(el), config.plugins.template));
   });
   // process head
   $output('head').prepend($input('head').html());
   // get root element
   $output = $output.root().html();
-  fs.writeFileSync(path.resolve(process.cwd(), opts.dest), $output, 'utf8');
+  fs.writeFileSync(path.resolve(process.cwd(), config.dest), $output, 'utf8');
 };
 
 module.exports = htmlpack;

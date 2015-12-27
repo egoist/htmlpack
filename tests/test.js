@@ -1,7 +1,14 @@
-var fs = require('fs')
-var htmlpack = require('../')
+var execa = require('execa')
 
-htmlpack({
-  entry: 'tests/fixture.html',
-  dest: 'tests/index.html'
+describe('main', function () {
+  it('should work', function (done) {
+     execa
+      .shell('node ./cli.js --no-babel --entry tests/fixture.html --dest tests/index.html')
+      .then(function (result) {
+        done()
+      })
+      .catch(function (err) {
+        done(err)
+      })
+  })
 })
