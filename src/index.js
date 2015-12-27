@@ -12,7 +12,6 @@ export default function htmlpack (args = {}) {
   for (let arg in args) {
     config[arg] = args[arg]
   }
-  console.log(config)
   if (config.babel === undefined) {
     config.babel = true
   }
@@ -25,7 +24,7 @@ export default function htmlpack (args = {}) {
     babel: config.babel
   }
   let $input = cheerio.load(fs.readFileSync(entryLocation, 'utf8'))
-  let $output = fs.readFileSync('./lib/output.html', 'utf8')
+  let $output = fs.readFileSync(__dirname + '/lib/output.html', 'utf8')
   $output = cheerio.load($output)
   // process style
   $input('style').each((i, el) => {

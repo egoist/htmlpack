@@ -15,8 +15,8 @@ export default function scriptLoader (el, plugins = []) {
   }
   if (this.babel) {
     content = babel.transform(content, {
-      presets: ['es2015', 'stage-0'],
-      plugins: ['transform-runtime']
+      presets: [require('babel-preset-es2015'), require('babel-preset-stage-0')],
+      plugins: [require('babel-plugin-transform-runtime')]
     }).code
   }
   for (let plugin of plugins) {

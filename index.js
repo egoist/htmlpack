@@ -82,8 +82,8 @@ function scriptLoader(el) {
   }
   if (this.babel) {
     content = babel.transform(content, {
-      presets: ['es2015', 'stage-0'],
-      plugins: ['transform-runtime']
+      presets: [require('babel-preset-es2015'), require('babel-preset-stage-0')],
+      plugins: [require('babel-plugin-transform-runtime')]
     }).code;
   }
   var _iteratorNormalCompletion = true;
@@ -158,7 +158,6 @@ function htmlpack() {
   for (var arg in args) {
     config[arg] = args[arg];
   }
-  console.log(config);
   if (config.babel === undefined) {
     config.babel = true;
   }
@@ -171,7 +170,7 @@ function htmlpack() {
     babel: config.babel
   };
   var $input = cheerio.load(fs.readFileSync(entryLocation, 'utf8'));
-  var $output = fs.readFileSync('./lib/output.html', 'utf8');
+  var $output = fs.readFileSync(__dirname + '/lib/output.html', 'utf8');
   $output = cheerio.load($output);
   // process style
   $input('style').each(function (i, el) {
