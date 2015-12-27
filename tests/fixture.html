@@ -1,0 +1,24 @@
+
+<style src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"></style>
+
+<template>
+  <div class="app">{{ time }}</div>
+</template>
+
+<script src="https://cdn.css.net/libs/vue/1.0.10/vue.min.js"></script>
+
+<script>
+  new Vue({
+    el: '#app'
+    data () {
+      return {
+        time: new Date()
+      }
+    },
+    ready () {
+      setTimeout(() => {
+        this.time = new Date()
+      }, 1000)
+    }
+  })
+</script>

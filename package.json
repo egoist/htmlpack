@@ -1,0 +1,35 @@
+{
+  "name": "htmlpack",
+  "version": "0.0.0",
+  "description": "Rethink HTML",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": "egoist/post-html",
+  "author": {
+    "name": "EGOIST",
+    "email": "0x142857@gmail.com",
+    "url": "github.com/egoist"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "node tests/test",
+    "build": "rollup -c"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "keywords": [
+    "html"
+  ],
+  "dependencies": {
+    "cheerio": "^0.19.0"
+  },
+  "devDependencies": {
+    "babel-preset-es2015-rollup": "^1.0.0",
+    "rollup": "^0.22.0",
+    "rollup-plugin-babel": "^2.2.0"
+  }
+}
