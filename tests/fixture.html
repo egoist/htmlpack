@@ -1,24 +1,44 @@
 
+<head>
+  <title>htmlpack</title>
+  <meta name="description" content="Rethink HTML.">
+</head>
+
 <style src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"></style>
 
 <template>
-  <div class="app">{{ time }}</div>
+  <div id="app">{{ time }}</div>
 </template>
 
-<script src="https://cdn.css.net/libs/vue/1.0.10/vue.min.js"></script>
 
+<style>
+  body {
+    margin: 0;
+  }
+</style>
+
+<style inline src="./fixture.css"></style>
+
+<script src="https://cdn.css.net/libs/vue/1.0.10/vue.min.js"></script>
+<script src="./fixture_outside.js" inline></script>
 <script>
   new Vue({
-    el: '#app'
+    el: '#app',
     data () {
       return {
         time: new Date()
       }
     },
     ready () {
-      setTimeout(() => {
-        this.time = new Date()
-      }, 1000)
+      this.update()
+    },
+    methods: {
+      update () {
+        setTimeout(() => {
+          this.time = new Date()
+          this.update()
+        }, 1000)
+      }
     }
   })
 </script>

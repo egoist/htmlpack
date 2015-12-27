@@ -78,12 +78,13 @@ Into this:
 ```javascript
 // default config
 export default {
-  entry: 'index.html',
-  loaders: {
-    style: ['style'],
-    script: ['script'],
-    head: ['head'],
-    template: ['template']
+  entry: 'entry.html',
+  dest: 'index.html'
+  plugins: {
+    style: [ customTransfomer() ],
+    script: [...],
+    head: [...],
+    template: [...]
   }
 }
 ```
